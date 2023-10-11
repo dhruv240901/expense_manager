@@ -1,0 +1,16 @@
+
+.income{
+        color: green
+}
+.expense{
+        color: red
+}
+.error{
+    padding-top: 34px;
+    color: red !important
+}
+.backbtn{
+    cursor: pointer;
+    color: black;
+}
+
