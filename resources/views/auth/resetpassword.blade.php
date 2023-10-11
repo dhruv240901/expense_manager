@@ -4,7 +4,7 @@
   <form action="{{route('postreset-password')}}" method="POST" id="forgetpasswordform">
     @csrf
     @include('includes.flash')
-    <h2>Forget Password</h2>
+    <h2>Reset Password</h2>
     <input type="hidden" value="{{$token}}" name="token">
     <div>
         <h4><label for="email">Email</label><br></h4>

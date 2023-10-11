@@ -124,7 +124,6 @@ class UserController extends Controller
         ]);
 
         $user=User::where('email',$request->email)->first();
-        // dd($user);
         if(!$user)
         {
             return redirect()->route('forget-password')->with('error','User not found');
@@ -158,7 +157,7 @@ class UserController extends Controller
         }
     }
 
-    // function to update new password 
+    // function to update new password
     public function postresetpassword(Request $request){
         $password_reset_data=PasswordReset::where('token',$request->token)->first();
         // dd($password_reset_data);
@@ -167,7 +166,6 @@ class UserController extends Controller
         // dd($user->id);
         if(!$password_reset_data || Carbon::now()->subminutes(10)>$password_reset_data->created_at)
         {
-            // $password_reset_data->delete();
             return redirect()->route('getreset-password')->with('error','Invalid password reset link or link expired.');
         }
 
@@ -177,11 +175,11 @@ class UserController extends Controller
                 'password' => 'required|min:8|max:10',
             ]);
 
-            // $password_reset_data->delete();
+
             $user->update([
                 'password'=>Hash::make($request->password)
             ]);
-            // $password_reset_data->delete();
+            
             return redirect()->route('login')->with('success','Password reseted successfully.');
         }
     }
