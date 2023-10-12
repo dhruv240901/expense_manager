@@ -150,7 +150,7 @@ class UserController extends Controller
 
         if(!$password_reset_data || Carbon::now()->subminutes(10)>$password_reset_data->created_at)
         {
-            return redirect("/")->with('error','Invalid password reset link or link expired.');
+            return redirect()->route('getreset-password')->with('error','Invalid password reset link or link expired.');
         }
         else{
             return view('auth.resetpassword',compact('token'));
@@ -179,7 +179,7 @@ class UserController extends Controller
             $user->update([
                 'password'=>Hash::make($request->password)
             ]);
-            
+
             return redirect()->route('login')->with('success','Password reseted successfully.');
         }
     }

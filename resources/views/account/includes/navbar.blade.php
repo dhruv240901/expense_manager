@@ -10,9 +10,11 @@
         @endguest
         @auth
         <li><a href="{{route('add-account')}}">Add Account</a></li>
+        <li><a href="{{route('add-othersaccount')}}">Add Others Account</a></li>
         <li><a href="{{route('my-accounts')}}">My Accounts</a></li>
         <li><a href="{{route('view-requests')}}">View Requests</a></li>
         <li><a href="{{route('add-transactions')}}">Add Transaction</a></li>
+        <li><a href="{{route('change-password')}}">Change Password</a></li>
         <li><a href="{{route('logout')}}">logout</a></li>
         @endauth
       </ul>

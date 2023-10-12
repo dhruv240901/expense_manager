@@ -10,6 +10,7 @@ $(document).ready(function () {
             phone: {
                 minlength: 10,
                 maxlength: 10,
+                number:true
             },
             email: {
                 required: true,
@@ -24,6 +25,7 @@ $(document).ready(function () {
             phone: {
                 minlength: "Please enter valid phone number",
                 maxlength: "Please enter valid phone number",
+                number:"Please enter valid phone number"
             },
             email: {
                 required: "Please enter your email",

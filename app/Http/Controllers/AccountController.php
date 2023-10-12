@@ -20,7 +20,7 @@ class AccountController extends Controller
         $validation=$request->validate([
             'name'=>'required',
             'accountnumber'=>'required',
-            'phone_number'=>'min:10|max:10',
+            'phone'=>'min:10|max:10',
             'email'=>'required|email'
         ]);
         $insertdata=[
