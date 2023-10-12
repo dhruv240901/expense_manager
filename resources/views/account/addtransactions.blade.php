@@ -1,5 +1,5 @@
 @extends('account.layout.app')
-
+@section('title','Add Transaction')
 @section('content')
 @include('includes.flash')
         <div class="row" style="background-color: white;margin-top: 5%;width: 50%;">

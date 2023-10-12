@@ -1,5 +1,5 @@
 @extends('account.layout.app')
-
+@section('title','Edit Account')
 @section('content')
 @include('includes.flash')
         <div class="row" style="background-color: white;margin-top: 5%;width: 50%;">

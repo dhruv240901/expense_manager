@@ -1,5 +1,5 @@
 @extends('auth.layout.app')
-
+@section('title','Signup')
 @section('content')
 
   <form action="{{route('custom-signup')}}" method="POST" id="signupform">

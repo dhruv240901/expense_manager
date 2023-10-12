@@ -1,5 +1,5 @@
 @extends('account.layout.app')
-
+@section('title','View Requests')
 @section('content')
 @include('includes.flash')
       <div class="container">

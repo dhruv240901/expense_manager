@@ -1,5 +1,5 @@
 @extends('auth.layout.app')
-
+@section('title','Login')
 @section('content')
   <form action="{{route('custom-login')}}" method="POST" id="loginform">
     @csrf

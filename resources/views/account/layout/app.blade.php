@@ -20,7 +20,7 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="{{asset('js/general.js')}}" type="text/javascript"></script>
-    <title>Document</title>
+    <title>@yield('title','Expense Manager')</title>
 </head>
 <body style="background-color:#e3dede">
     @include('account.includes.navbar')

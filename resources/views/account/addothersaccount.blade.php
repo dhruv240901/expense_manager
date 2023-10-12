@@ -1,5 +1,5 @@
 @extends('account.layout.app')
-
+@section('title','Add Others Account')
 @section('content')
         @include('includes.flash')
 

@@ -1,5 +1,5 @@
 @extends('auth.layout.app')
-
+@section('title','Forget Password')
 @section('content')
   <form action="{{route('postforget-password')}}" method="POST" id="forgetpasswordform">
     @csrf

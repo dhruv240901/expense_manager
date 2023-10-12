@@ -1,5 +1,5 @@
 @extends('auth.layout.app')
-
+@section('title','Reset Password')
 @section('content')
   <form action="{{route('postreset-password')}}" method="POST" id="forgetpasswordform">
     @csrf

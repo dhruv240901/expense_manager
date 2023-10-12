@@ -17,7 +17,7 @@
         color:red
     }
     </style>
-  <title>Signup form</title>
+      <title>@yield('title','Expense Manager')</title>
 </head>
 <body>
     @yield('content')
