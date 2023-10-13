@@ -23,8 +23,8 @@ return new class extends Migration
             $table->unsignedBigInteger('transactioncategory_id')->nullable();
             $table->foreign('transactioncategory_id')->references('id')->on('transaction_categories')
             ->onDelete('CASCADE')->onUpdate('CASCADE');
-            $table->unsignedBigInteger('receiver_id')->nullable();
-            $table->foreign('receiver_id')->references('id')->on('users')
+            $table->unsignedBigInteger('receiveraccount_id')->nullable();
+            $table->foreign('receiveraccount_id')->references('id')->on('users')
             ->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->timestamps();
         });

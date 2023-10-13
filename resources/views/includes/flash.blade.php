@@ -16,20 +16,6 @@
 </div>
 @endif
 <style>
-    .alert {
-	.card-content {
-		span {
-			font-weight: bold;
-			font-size: 1.1em;
-			margin-right:4px;
-		}
-		.material-icons {
-			font-size: 1.5em;
-			position: relative;
-			top: 5px;
-			margin-right: 0.5em;
-		}
-	}
-}
+  
 
 </style>

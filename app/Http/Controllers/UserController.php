@@ -6,11 +6,8 @@ use Illuminate\Http\Request;
 use Hash;
 use App\Models\User;
 use App\Models\Account;
-use App\Mail\signupmail;
 use App\Jobs\SendSignupMailJob;
 use App\Jobs\ForgetPasswordMailJob;
-use App\Mail\ForgetPasswordMail;
-use Mail;
 use Auth;
 use Session;
 use Carbon\Carbon;
@@ -28,7 +25,7 @@ class UserController extends Controller
     public function customsignup(Request $request){
         $validation=$request->validate([
             'name'=>'required',
-            'email'=>'required|email',
+            'email'=>'required|email|exists:users',
             'password'=>'required|min:8',
         ]);
         $checkemailunique=User::where('email',$request->email)->first();
@@ -39,9 +36,6 @@ class UserController extends Controller
                 "password"=>Hash::make($request->password),
                 'uuid'=>Str::uuid()
             ];
-            // dispatch(function(){
-            //     Mail::to('yash@gmail.com')->send(new signupmail('yash'));
-            // })->delay(now()->addSeconds(5));
             $user=User::create($insertdata);
             dispatch(new SendSignupMailJob($user->email,$user->name))->delay(now()->addSeconds(5));
             $insertaccount=[
@@ -70,9 +64,7 @@ class UserController extends Controller
             'password'=>'required|min:8'
         ]);
         $credentials = $request->only('email', 'password');
-        // dd($credentials);
         if (Auth::attempt($credentials)) {
-            $user_details = auth()->user();
             return redirect('/')->with('success', 'Signed in successfully');
         }
 

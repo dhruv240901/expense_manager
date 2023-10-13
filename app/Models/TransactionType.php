@@ -10,4 +10,6 @@ class TransactionType extends Model
     use HasFactory;
 
     protected $table='transaction_types';
+
+    protected $fillable=['name'];
 }

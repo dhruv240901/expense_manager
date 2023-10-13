@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Requests;
 use App\Models\OtherAccount;
 use Illuminate\Support\Facades\DB;
+use AgliPanci\LaravelCase\Query\CaseBuilder;
 class AccountController extends Controller
 {
     // function to render add account form
@@ -43,6 +44,11 @@ class AccountController extends Controller
         END AS createdat
         FROM expense_manager.accounts LEFT JOIN expense_manager.others_accounts ON expense_manager.accounts.id = expense_manager.others_accounts.account_id
         WHERE expense_manager.accounts.owner_id=? OR expense_manager.others_accounts.user_id=? ORDER BY createdat',[auth()->id(),auth()->id(),auth()->id(),auth()->id()]);
+//         $useraccounts=Account::select("'accounts.id','accounts.holder_name','accounts.account_number','accounts.phone_number','accounts.email','accounts.owner_id','others_accounts.user_id',
+//          (CASE WHEN  expense_manager.accounts.owner_id=? THEN expense_manager.accounts.created_at
+//         WHEN expense_manager.others_accounts.user_id=? THEN expense_manager.others_accounts.created_at
+//     END AS createdat)")->leftJoin('others_accounts', 'accounts.id', '=', 'others_accounts.account_id')->get();
+// dd($useraccounts);
         return view('account.myaccount',compact('myaccounts'));
     }
 
@@ -67,8 +73,7 @@ class AccountController extends Controller
 
     // function to delete account
     public function deleteaccount(Request $request,$id){
-        $account=Account::findOrFail($id);
-        $account->delete();
+        $account=Account::findOrFail($id)->delete();
         return redirect()->route('my-accounts')->with('success','Account deleted successfully!');
 
     }
@@ -88,8 +93,7 @@ class AccountController extends Controller
 
     // function to delete other user account
     public function deleteothersaccount(Request $request,$id){
-        $othersaccount=OtherAccount::where('account_id',$id)->where('user_id',auth()->id())->first();
-        $othersaccount->delete();
+        $othersaccount=OtherAccount::where('account_id',$id)->where('user_id',auth()->id())->first()->delete();
         $request=Requests::where('sender_id',auth()->id())->where('account_id',$id)->delete();
         return redirect()->route('my-accounts')->with('success','Account deleted successfully!');
     }

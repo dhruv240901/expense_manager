@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('account_number');
             $table->string('phone_number')->nullable();
             $table->string('email');
+            $table->unsignedBigInteger('owner_id')->nullable();
+            $table->foreign('owner_id')->references('id')->on('users')
+            ->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->timestamps();
         });
     }

@@ -20,39 +20,41 @@ use App\Http\Controllers\TransactionController;
 
 Route::get('/', [HomeController::class,'index'])->name('index');
 Route::get('signup',[UserController::class,'signup'])->name('signup');
-Route::post('customsignup',[UserController::class,'customsignup'])->name('custom-signup');
+Route::post('custom-signup',[UserController::class,'customsignup'])->name('custom-signup');
 Route::get('login',[UserController::class,'login'])->name('login');
-Route::post('customlogin',[UserController::class,'customlogin'])->name('custom-login');
-Route::get('forgetpassword',[UserController::class,'forgetpassword'])->name('forget-password');
-Route::post('forgetpassword',[UserController::class,'postforgetpassword'])->name('postforget-password');
-Route::get('resetpassword/{token}',[UserController::class,'getresetpassword'])->name('getreset-password');
-Route::post('resetpassword',[UserController::class,'postresetpassword'])->name('postreset-password');
+Route::post('custom-login',[UserController::class,'customlogin'])->name('custom-login');
+Route::get('forget-password',[UserController::class,'forgetpassword'])->name('forget-password');
+Route::post('forget-password',[UserController::class,'postforgetpassword'])->name('postforget-password');
+Route::get('reset-password/{token}',[UserController::class,'getresetpassword'])->name('getreset-password');
+Route::post('reset-password',[UserController::class,'postresetpassword'])->name('postreset-password');
 
 Route::group(['middleware' => ['auth']], function(){
     Route::get('logout',[UserController::class,'logout'])->name('logout');
-    Route::get('changepassword',[UserController::class,'changepassword'])->name('change-password');
-    Route::post('updatepassword',[UserController::class,'updatepassword'])->name('update-password');
+    Route::get('change-password',[UserController::class,'changepassword'])->name('change-password');
+    Route::post('update-password',[UserController::class,'updatepassword'])->name('update-password');
     Route::prefix('account')->group(function(){
-        Route::get('addaccount',[AccountController::class,'addaccount'])->name('add-account');
-        Route::post('storeaccount',[AccountController::class,'storeaccount'])->name('store-account');
-        Route::get('myaccounts',[AccountController::class,'myaccounts'])->name('my-accounts');
-        Route::get('editaccount/{id}',[AccountController::class,'editaccount'])->name('edit-account');
-        Route::put('updateaccount/{id}',[AccountController::class,'updateaccount'])->name('update-account');
-        Route::delete('deleteaccount/{id}',[AccountController::class,'deleteaccount'])->name('delete-account');
+        Route::get('create',[AccountController::class,'addaccount'])->name('add-account');
+        Route::post('store',[AccountController::class,'storeaccount'])->name('store-account');
+        Route::get('list',[AccountController::class,'myaccounts'])->name('my-accounts');
+        Route::get('edit/{id}',[AccountController::class,'editaccount'])->name('edit-account');
+        Route::put('update/{id}',[AccountController::class,'updateaccount'])->name('update-account');
+        Route::delete('delete/{id}',[AccountController::class,'deleteaccount'])->name('delete-account');
     });
     Route::prefix('transactions')->group(function(){
-        Route::get('viewtransactions/{id}',[TransactionController::class,'viewtransactions'])->name('view-transactions');
-        Route::get('addtransactions',[TransactionController::class,'addtransactions'])->name('add-transactions');
-        Route::post('storetransactions',[TransactionController::class,'storetransactions'])->name('store-transactions');
-        Route::get('edittransactions/{id}',[TransactionController::class,'edittransactions'])->name('edit-transactions');
-        Route::put('updatetransactions/{id}',[TransactionController::class,'updatetransactions'])->name('update-transactions');
-        Route::delete('deletetransactions/{id}',[TransactionController::class,'deletetransactions'])->name('delete-transactions');
+        Route::get('view/{id}',[TransactionController::class,'viewtransactions'])->name('view-transactions');
+        Route::get('create',[TransactionController::class,'addtransactions'])->name('add-transactions');
+        Route::post('store',[TransactionController::class,'storetransactions'])->name('store-transactions');
+        Route::get('edit/{id}',[TransactionController::class,'edittransactions'])->name('edit-transactions');
+        Route::put('update/{id}',[TransactionController::class,'updatetransactions'])->name('update-transactions');
+        Route::delete('delete/{id}',[TransactionController::class,'deletetransactions'])->name('delete-transactions');
     });
-    Route::post('accountsearch',[TransactionController::class,'accountsearch'])->name('account-search');
+    Route::post('account-search',[TransactionController::class,'accountsearch'])->name('account-search');
     Route::get('addothersaccount',[AccountController::class,'addothersaccount'])->name('add-othersaccount');
     Route::get('searchothersaccount',[AccountController::class,'searchothersaccount'])->name('search-othersaccount');
     Route::delete('deleteothersaccount/{id}',[AccountController::class,'deleteothersaccount'])->name('delete-othersaccount');
-    Route::get('sendrequest/{id}',[AccountController::class,'sendrequest'])->name('send-request');
-    Route::get('viewrequests',[AccountController::class,'viewrequests'])->name('view-requests');
-    Route::get('approverequest/{id}',[AccountController::class,'approverequest'])->name('approve-request');
+    Route::prefix('request')->group(function(){
+        Route::get('send/{id}',[AccountController::class,'sendrequest'])->name('send-request');
+        Route::get('view',[AccountController::class,'viewrequests'])->name('view-requests');
+        Route::get('approve/{id}',[AccountController::class,'approverequest'])->name('approve-request');
+    });
 });

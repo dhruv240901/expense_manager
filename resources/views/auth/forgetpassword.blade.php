@@ -1,6 +1,7 @@
 @extends('auth.layout.app')
 @section('title','Forget Password')
 @section('content')
+<a href={{route('login')}}>  <i class="material-icons purple lighten-2 backbtn">arrow_back</i></a>
   <form action="{{route('postforget-password')}}" method="POST" id="forgetpasswordform">
     @csrf
     @include('includes.flash')

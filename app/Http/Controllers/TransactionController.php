@@ -13,10 +13,9 @@ use Illuminate\Support\Facades\DB;
 class TransactionController extends Controller
 {
     // function to view transactions of specified account
-    public function viewtransactions($id){
-        $transactions=Transaction::where('account_id',$id)->orwhere('receiveraccount_id',$id)->orderBy('created_at','DESC')->get();
+    private function totalbalance($transaction,$id){
         $totalbalance=0;
-        foreach($transactions as $k=>$v){
+        foreach($transaction as $k=>$v){
             if($v->transactiontype_id==1){
                 $totalbalance+=$v->amount;
             }
@@ -30,6 +29,11 @@ class TransactionController extends Controller
                 $totalbalance-=$v->amount;
             }
         }
+        return $totalbalance;
+    }
+    public function viewtransactions($id){
+        $transactions=Transaction::where('account_id',$id)->orwhere('receiveraccount_id',$id)->orderBy('created_at','DESC')->get();
+        $totalbalance=$this->totalbalance($transactions,$id);
         return view('account.viewtransactions',compact('transactions','totalbalance','id'));
     }
 
@@ -51,15 +55,7 @@ class TransactionController extends Controller
     // function to store transaction in database
     public function storetransactions(Request $request){
         $transactions=Transaction::where('account_id',$request->account_id)->get();
-        $totalbalance=0;
-        foreach($transactions as $k=>$v){
-            if($v->transactiontype_id==1){
-                $totalbalance+=$v->amount;
-            }
-            if($v->transactiontype_id==2 || $v->transactiontype_id==3){
-                $totalbalance-=$v->amount;
-            }
-        }
+        $totalbalance=$this->totalbalance($transactions,$id);
         if($request->type_id==2 || $request->type_id==3){
             if($request->amount<$totalbalance){
                 $insertdata=[
@@ -113,15 +109,7 @@ class TransactionController extends Controller
     public function updatetransactions(Request $request,$id){
         $transaction=Transaction::findOrFail($id);
         $transactions=Transaction::where('account_id',$request->account_id)->get();
-        $totalbalance=0;
-        foreach($transactions as $k=>$v){
-            if($v->transactiontype_id==1){
-                $totalbalance+=$v->amount;
-            }
-            if($v->transactiontype_id==2 || $v->transactiontype_id==3){
-                $totalbalance-=$v->amount;
-            }
-        }
+        $totalbalance=$this->totalbalance($transactions,$id);
         if($request->type_id==2 || $request->type_id==3){
             if($request->amount<$totalbalance){
                 $updatedata=[
@@ -149,7 +137,7 @@ class TransactionController extends Controller
         return redirect()->route('view-transactions',$transaction->account_id)->with('success','Transaction deleted successfully');
     }
 
-    // function to search receivers account during transfer 
+    // function to search receivers account during transfer
     public function accountsearch(Request $request){
         $receiveraccounts=Account::whereNot('id',$request->senderaccount_id)->where('account_number','Like',$request->receiveraccount_id.'%')->get();
         return view('account.receiveraccounts',compact('receiveraccounts'));
