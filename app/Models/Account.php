@@ -11,4 +11,8 @@ class Account extends Model
 
     protected $fillable=['holder_name','account_number','phone_number','email','owner_id'];
 
+    public function otheraccount()
+    {
+        return $this->hasMany(OtherAccount::class,'account_id');
+    }
 }

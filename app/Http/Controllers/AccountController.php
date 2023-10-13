@@ -37,19 +37,9 @@ class AccountController extends Controller
 
     // function to render myaccounts page
     public function myaccounts(){
-        $myaccounts=DB::select('SELECT expense_manager.accounts.id,expense_manager.accounts.holder_name,expense_manager.accounts.account_number,expense_manager.accounts.phone_number,expense_manager.accounts.email,expense_manager.accounts.owner_id,expense_manager.others_accounts.user_id,
-        CASE
-            WHEN  expense_manager.accounts.owner_id=? THEN expense_manager.accounts.created_at
-            WHEN expense_manager.others_accounts.user_id=? THEN expense_manager.others_accounts.created_at
-        END AS createdat
-        FROM expense_manager.accounts LEFT JOIN expense_manager.others_accounts ON expense_manager.accounts.id = expense_manager.others_accounts.account_id
-        WHERE expense_manager.accounts.owner_id=? OR expense_manager.others_accounts.user_id=? ORDER BY createdat',[auth()->id(),auth()->id(),auth()->id(),auth()->id()]);
-//         $useraccounts=Account::select("'accounts.id','accounts.holder_name','accounts.account_number','accounts.phone_number','accounts.email','accounts.owner_id','others_accounts.user_id',
-//          (CASE WHEN  expense_manager.accounts.owner_id=? THEN expense_manager.accounts.created_at
-//         WHEN expense_manager.others_accounts.user_id=? THEN expense_manager.others_accounts.created_at
-//     END AS createdat)")->leftJoin('others_accounts', 'accounts.id', '=', 'others_accounts.account_id')->get();
-// dd($useraccounts);
-        return view('account.myaccount',compact('myaccounts'));
+        $myaccounts=Account::where('owner_id',auth()->id())->get();
+        $othersaccount=OtherAccount::where('user_id',auth()->id())->get();
+        return view('account.myaccount',compact('myaccounts','othersaccount'));
     }
 
     // function to render editaccount form
