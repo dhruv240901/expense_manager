@@ -36,7 +36,7 @@ class AccountController extends Controller
 
     // function to render myaccounts page
     public function myaccounts(){
-        $myaccounts=DB::select('SELECT expense_manager.accounts.id,expense_manager.accounts.holder_name,expense_manager.accounts.account_number,expense_manager.accounts.phone_number,expense_manager.accounts.email,
+        $myaccounts=DB::select('SELECT expense_manager.accounts.id,expense_manager.accounts.holder_name,expense_manager.accounts.account_number,expense_manager.accounts.phone_number,expense_manager.accounts.email,expense_manager.accounts.owner_id,expense_manager.others_accounts.user_id,
         CASE
             WHEN  expense_manager.accounts.owner_id=? THEN expense_manager.accounts.created_at
             WHEN expense_manager.others_accounts.user_id=? THEN expense_manager.others_accounts.created_at
@@ -70,6 +70,7 @@ class AccountController extends Controller
         $account=Account::findOrFail($id);
         $account->delete();
         return redirect()->route('my-accounts')->with('success','Account deleted successfully!');
+
     }
 
     // function to render other users account page
@@ -84,6 +85,14 @@ class AccountController extends Controller
         return view('account.searchothersaccount',compact('accounts','user'));
     }
 
+
+    // function to delete other user account
+    public function deleteothersaccount(Request $request,$id){
+        $othersaccount=OtherAccount::where('account_id',$id)->where('user_id',auth()->id())->first();
+        $othersaccount->delete();
+        $request=Requests::where('sender_id',auth()->id())->where('account_id',$id)->delete();
+        return redirect()->route('my-accounts')->with('success','Account deleted successfully!');
+    }
     // function to send request to other user for accessing accounts
     public function sendrequest(Request $request,$id){
         $insertdata=[

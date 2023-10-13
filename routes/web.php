@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('accountsearch',[TransactionController::class,'accountsearch'])->name('account-search');
     Route::get('addothersaccount',[AccountController::class,'addothersaccount'])->name('add-othersaccount');
     Route::get('searchothersaccount',[AccountController::class,'searchothersaccount'])->name('search-othersaccount');
+    Route::delete('deleteothersaccount/{id}',[AccountController::class,'deleteothersaccount'])->name('delete-othersaccount');
     Route::get('sendrequest/{id}',[AccountController::class,'sendrequest'])->name('send-request');
     Route::get('viewrequests',[AccountController::class,'viewrequests'])->name('view-requests');
     Route::get('approverequest/{id}',[AccountController::class,'approverequest'])->name('approve-request');
