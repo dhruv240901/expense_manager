@@ -17,7 +17,7 @@
                       <option value="{{$v->id}}">{{$v->holder_name}}({{$v->account_number}})</option>
                       @endforeach
                       @foreach ($othersaccount as $k=>$v)
-                      <option value="{{$v->id}}">{{$v->account->holder_name}}({{$v->account->account_number}})</option>
+                      <option value="{{$v->id}}" >{{$v->account->holder_name}}({{$v->account->account_number}})</option>
                       @endforeach
                     </select>
                     <label>Select Account</label>

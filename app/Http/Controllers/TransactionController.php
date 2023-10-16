@@ -50,7 +50,7 @@ class TransactionController extends Controller
     // function to store transaction in database
     public function storetransactions(Request $request){
         $transactions=Transaction::where('account_id',$request->account_id)->get();
-        $totalbalance=$this->totalbalance($transactions,$id);
+        $totalbalance=$this->totalbalance($transactions,$request->account_id);
         if($request->type_id==2 || $request->type_id==3){
             if($request->amount<$totalbalance){
                 $insertdata=[
@@ -98,7 +98,7 @@ class TransactionController extends Controller
     public function updatetransactions(Request $request,$id){
         $transaction=Transaction::findOrFail($id);
         $transactions=Transaction::where('account_id',$request->account_id)->get();
-        $totalbalance=$this->totalbalance($transactions,$id);
+        $totalbalance=$this->totalbalance($transactions,$request->account_id);
         if($request->type_id==2 || $request->type_id==3){
             if($request->amount<$totalbalance){
                 $updatedata=[

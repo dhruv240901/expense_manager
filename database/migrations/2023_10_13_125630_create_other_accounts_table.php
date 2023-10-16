@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('other_accounts', function (Blueprint $table) {
+        Schema::create('others_accounts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')
