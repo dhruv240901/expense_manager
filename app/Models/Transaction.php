@@ -15,6 +15,10 @@ class Transaction extends Model
     {
         return $this->belongsTo(TransactionCategory::class,'transactioncategory_id');
     }
+    public function type()
+    {
+        return $this->belongsTo(TransactionType::class,'transactiontype_id');
+    }
     public function receiveraccount()
     {
         return $this->belongsTo(Account::class,'receiveraccount_id');

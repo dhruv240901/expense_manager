@@ -17,7 +17,7 @@
                       <option value="{{$v->id}}">{{$v->holder_name}}({{$v->account_number}})</option>
                       @endforeach
                       @foreach ($othersaccount as $k=>$v)
-                      <option value="{{$v->id}}" >{{$v->account->holder_name}}({{$v->account->account_number}})</option>
+                      <option value="{{$v->account_id}}" >{{$v->account->holder_name}}({{$v->account->account_number}})</option>
                       @endforeach
                     </select>
                     <label>Select Account</label>
@@ -83,7 +83,8 @@
 //   });
 $(document).ready(function(){
     $('select').formSelect();
-    $('#receiveraccount_id').keypress(function(){
+    $('#receiveraccount_id').keyup(function(){
+        $('#receiveraccounts').show()
         $.ajax({
             url:'{{route('account-search')}}',
             method:'POST',
@@ -97,6 +98,21 @@ $(document).ready(function(){
             }
         });
     })
+    // $('#receiveraccount_id').change(function(){
+    //     console.log('#receiveraccount_id').val()
+        // $.ajax({
+        //     url:'{{route('account-search')}}',
+        //     method:'POST',
+        //     data:{
+        //         "_token": "{{ csrf_token() }}",
+        //         'receiveraccount_id':$('#receiveraccount_id').val(),
+        //         'senderaccount_id':$('#account_id').val()
+        //     },
+        //     success:function(data){
+        //         $('#receiveraccounts').html(data)
+        //     }
+        // });
+    // })
 });
 
 

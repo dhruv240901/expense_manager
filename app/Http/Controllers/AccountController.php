@@ -62,7 +62,7 @@ class AccountController extends Controller
     }
 
     // function to delete account
-    public function deleteaccount(Request $request,$id){
+    public function deleteaccount($id){
         $account=Account::findOrFail($id)->delete();
         return redirect()->route('my-accounts')->with('success','Account deleted successfully!');
 
@@ -76,8 +76,7 @@ class AccountController extends Controller
     // function to search accounts that belongs to user of entered email
     public function searchothersaccount(Request $request){
         $user=User::where('email',$request->email)->first();
-        $accounts=$user->accounts;
-        return view('account.searchothersaccount',compact('accounts','user'));
+        return view('account.searchothersaccount',compact('user'));
     }
 
 
@@ -87,6 +86,7 @@ class AccountController extends Controller
         $request=Requests::where('sender_id',auth()->id())->where('account_id',$id)->delete();
         return redirect()->route('my-accounts')->with('success','Account deleted successfully!');
     }
+
     // function to send request to other user for accessing accounts
     public function sendrequest(Request $request,$id){
         $insertdata=[
@@ -106,10 +106,7 @@ class AccountController extends Controller
     // function to approve request and add the requested account on requested user account
     public function approverequest($id){
         $request=Requests::findOrFail($id);
-        $updatedata=[
-            'is_approved'=>1
-        ];
-        $request->update($updatedata);
+        $request->update(['is_approved'=>1]);
         $insertdata=[
             'account_id'=>$request->account_id,
             'user_id'=>$request->sender_id

@@ -13,25 +13,27 @@ use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
-    // function to view transactions of specified account
-    private function totalbalance($transaction,$id){
+    // function to find total balance in account
+    public function totalbalance($transaction,$id){
         $totalbalance=0;
         foreach($transaction as $k=>$v){
-            if($v->transactiontype_id==1){
+            if($v->type->name=="income"){
                 $totalbalance+=$v->amount;
             }
-            if($v->transactiontype_id==2){
+            if($v->type->name=="expense"){
                 $totalbalance-=$v->amount;
             }
-            if($v->transactiontype_id==3 && $v->receiveraccount_id==$id){
+            if($v->type->name=="transfer" && $v->receiveraccount_id==$id){
                 $totalbalance+=$v->amount;
             }
-            if($v->transactiontype_id==3 && $v->account_id==$id){
+            if($v->type->name=="transfer" && $v->account_id==$id){
                 $totalbalance-=$v->amount;
             }
         }
         return $totalbalance;
     }
+
+    // function to view transactions of specified account
     public function viewtransactions($id){
         $transactions=Transaction::where('account_id',$id)->orwhere('receiveraccount_id',$id)->orderBy('created_at','DESC')->get();
         $totalbalance=$this->totalbalance($transactions,$id);
@@ -49,7 +51,7 @@ class TransactionController extends Controller
 
     // function to store transaction in database
     public function storetransactions(Request $request){
-        $transactions=Transaction::where('account_id',$request->account_id)->get();
+        $transactions=Transaction::where('account_id',$request->account_id)->orwhere('receiveraccount_id',$request->account_id)->get();
         $totalbalance=$this->totalbalance($transactions,$request->account_id);
         if($request->type_id==2 || $request->type_id==3){
             if($request->amount<$totalbalance){
@@ -76,9 +78,6 @@ class TransactionController extends Controller
                 'transactiontype_id'=>$request->type_id,
                 'transactioncategory_id'=>$request->category_id,
             ];
-            if(isset($request->receiver_account_id)){
-                $insertdata['receiveraccount_id']=$request->receiver_account_id;
-            }
             Transaction::create($insertdata);
             return redirect()->route('my-accounts')->with('success','Transaction added successfully');
         }
@@ -108,7 +107,7 @@ class TransactionController extends Controller
                     'transactioncategory_id'=>$request->category_id,
                 ];
                 if(isset($request->receiver_id)){
-                    $insertdata['receiver_id']=$request->receiver_id;
+                    $updatedata['receiver_id']=$request->receiver_id;
                 }
                 $transaction->update($updatedata);
                 return redirect()->route('view-transactions',$transaction->account_id)->with('success','Transaction updated successfully');
@@ -116,11 +115,20 @@ class TransactionController extends Controller
             else{
                 return redirect()->route('edit-transactions')->with('error','Not Enough balance!');
             }
+        }else{
+            $updatedata=[
+                'account_id'=>$request->account_id,
+                'amount'=>$request->amount,
+                'transactiontype_id'=>$request->type_id,
+                'transactioncategory_id'=>$request->category_id,
+            ];
+            $transaction->update($updatedata);
+            return redirect()->route('view-transactions',$transaction->account_id)->with('success','Transaction updated successfully');
         }
     }
 
     // function to delete transactions
-    public function deletetransactions(Request $request,$id){
+    public function deletetransactions($id){
         $transaction=Transaction::findOrFail($id);
         $transaction->delete();
         return redirect()->route('view-transactions',$transaction->account_id)->with('success','Transaction deleted successfully');

@@ -156,6 +156,38 @@ $(document).ready(function () {
         }
     })
 
+    $('#changepasswordform').validate({
+        rules:{
+            currentpassword:{
+                required:true,
+            },
+            newpassword:{
+                required:true,
+                minlength:8,
+            },
+            confirmpassword:{
+                required:true,
+                equalTo:'#newpassword'
+            }
+        },
+        messages:{
+            currentpassword:{
+                    required:"Please enter your current password",
+                },
+            newpassword:{
+                required:"Please enter password",
+                minlength:"Please enter password greater than or equal to 8 characters",
+            },
+            confirmpassword:{
+                required:"Please confirm password",
+                equalTo:'Password is not matching',
+            }
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    })
+    
     $('#forgetpasswordform').validate({
         rules:{
             email:{

@@ -18,6 +18,9 @@ class UserController extends Controller
 {
     // function to render signup page
     public function signup(){
+        if(Auth::check()){
+            return redirect()->route('index');
+        }
         return view('auth.signup');
     }
 
@@ -25,7 +28,7 @@ class UserController extends Controller
     public function customsignup(Request $request){
         $validation=$request->validate([
             'name'=>'required',
-            'email'=>'required|email',
+            'email'=>'required|email|unique:users',
             'password'=>'required|min:8',
         ]);
         $checkemailunique=User::where('email',$request->email)->first();
@@ -54,6 +57,9 @@ class UserController extends Controller
 
     // function to render login form
     public function login(){
+        if(Auth::check()){
+            return redirect()->route('index');
+        }
         return view('auth.login');
     }
 

@@ -15,7 +15,3 @@
     </div>
 </div>
 @endif
-<style>
-  
-
-</style>

@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\TransactionCategory;
-class transaction_categories extends Seeder
+class TransactionCategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.

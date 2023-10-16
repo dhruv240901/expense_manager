@@ -11,18 +11,19 @@
                   </div>
               <div class="row">
                 <div class="input-field col s12">
-                  <input id="currentpassword" type="text" class="validate" name="currentpassword">
+                  <input id="currentpassword" type="password" class="validate" name="currentpassword">
                   <label for="currentpassword">Enter current password</label>
+                </div>
               </div>
               <div class="row">
                 <div class="input-field col s12">
-                  <input id="newpassword" type="text" class="validate" name="newpassword">
+                  <input id="newpassword" type="password" class="validate" name="newpassword">
                   <label for="newpassword">Enter new password</label>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12">
-                  <input id="confirmpassword" type="text" class="validate" name="confirmpassword">
+                  <input id="confirmpassword" type="password" class="validate" name="confirmpassword">
                   <label for="confirmpassword">Confirm new password</label>
                 </div>
               </div>
@@ -34,50 +35,5 @@
             </form>
         </div>
 
-<script>
-//     document.addEventListener('DOMContentLoaded', function() {
-//     var elems = document.querySelectorAll('.sidenav');
-//     var instances = M.Sidenav.init(elems, options);
-//   });
-
-//   // Or with jQuery
-
-//   $(document).ready(function(){
-//     $('.sidenav').sidenav();
-//   });
-
-
-$('#changepasswordform').validate({
-    rules:{
-        currentpassword:{
-            required:true,
-        },
-        newpassword:{
-            required:true,
-            minlength:8,
-        },
-        confirmpassword:{
-            required:true,
-            equalTo:'#newpassword'
-        }
-    },
-    messages:{
-        currentpassword:{
-                required:"Please enter your current password",
-            },
-        newpassword:{
-            required:"Please enter password",
-            minlength:"Please enter password greater than or equal to 8 characters",
-        },
-        confirmpassword:{
-            required:"Please confirm password",
-            equalTo:'Password is not matching',
-        }
-    },
-    submitHandler: function(form) {
-        form.submit();
-    }
-})
-</script>
 @endsection
 

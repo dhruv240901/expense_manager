@@ -6,7 +6,7 @@
     </tr>
     </thead>
     <tbody>
-        @foreach($accounts as $k=>$v)
+        @foreach($user->accounts as $k=>$v)
         <tr>
             <td>{{$v->holder_name}}</td>
             <td>{{$v->account_number}}</td>
