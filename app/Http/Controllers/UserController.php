@@ -25,7 +25,7 @@ class UserController extends Controller
     public function customsignup(Request $request){
         $validation=$request->validate([
             'name'=>'required',
-            'email'=>'required|email|exists:users',
+            'email'=>'required|email',
             'password'=>'required|min:8',
         ]);
         $checkemailunique=User::where('email',$request->email)->first();
