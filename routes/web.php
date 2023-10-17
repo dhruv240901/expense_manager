@@ -48,13 +48,15 @@ Route::group(['middleware' => ['auth']], function(){
         Route::put('update/{id}',[TransactionController::class,'updatetransactions'])->name('update-transactions');
         Route::delete('delete/{id}',[TransactionController::class,'deletetransactions'])->name('delete-transactions');
     });
-    Route::post('account-search',[TransactionController::class,'accountsearch'])->name('account-search');
-    Route::get('addothersaccount',[AccountController::class,'addothersaccount'])->name('add-othersaccount');
-    Route::get('searchothersaccount',[AccountController::class,'searchothersaccount'])->name('search-othersaccount');
-    Route::delete('deleteothersaccount/{id}',[AccountController::class,'deleteothersaccount'])->name('delete-othersaccount');
+    Route::prefix('othersaccount')->group(function(){
+        Route::get('add',[AccountController::class,'addothersaccount'])->name('add-othersaccount');
+        Route::get('search',[AccountController::class,'searchothersaccount'])->name('search-othersaccount');
+        Route::delete('delete/{id}',[AccountController::class,'deleteothersaccount'])->name('delete-othersaccount');
+    });
     Route::prefix('request')->group(function(){
         Route::get('send/{id}',[AccountController::class,'sendrequest'])->name('send-request');
         Route::get('view',[AccountController::class,'viewrequests'])->name('view-requests');
         Route::get('approve/{id}',[AccountController::class,'approverequest'])->name('approve-request');
     });
+    Route::post('account-search',[TransactionController::class,'accountsearch'])->name('account-search');
 });
